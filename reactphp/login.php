@@ -14,7 +14,7 @@ $email=$data->email;
 $password=$data->password;
 
 
-if ($full_name && $email && $password) {
+
 $sql= "SELECT * FROM `register` WHERE email='".$email."' AND password='".$password."' ";
 
 $result = mysqli_query($con, $sql);
@@ -25,8 +25,6 @@ if ($result) {
 else{
     $response['data']=array('status'=>'invalid');
     echo json_encode($response);
-}
-
 }
 
 
