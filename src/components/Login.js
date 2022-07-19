@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login=()=>{
-    let history=useNavigate();
+    let navigate=useNavigate();
     const [user, setUser]=useState({
         email:"",
          password:""
@@ -20,13 +20,15 @@ const Login=()=>{
         }
 
         // console.log(sendUser);
-        axios.post('http://localhost/reactapp/super/reactphp/insert.php', sendUser)
+        axios.post('http://localhost/reactapp/super/reactphp/login.php', sendUser)
         .then((result)=>{
-            if (result.user.Status === 'Invalid') {
-                alert("Invalid User")
+            if (result.data.Status === '200') {
+                window.localStorage.setItem('full_name', result.data.full_name);
+                window.localStorage.setItem('email', result.data.email);
+                navigate('/dashboard');
             }
             else{
-                history('/register');
+                alert("Invalid User")
             }
         })
     }

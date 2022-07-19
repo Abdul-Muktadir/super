@@ -15,16 +15,27 @@ $password=$data->password;
 
 
 
-$sql= "SELECT * FROM `register` WHERE email='".$email."' AND password='".$password."' ";
+$result = mysqli_query($con, "SELECT * FROM `register` WHERE email='".$email."' AND password='".$password."' ");
 
-$result = mysqli_query($con, $sql);
-if ($result) {
-    $response['data']=array('status'=>'valid');
-    echo json_encode($response);
+// $result = mysqli_query($con, $sql);
+$nums= mysqli_num_rows($result);
+
+$rs= mysqli_fetch_array($result);
+if ($nums >= 1) {
+    http_response_code(200);
+    $outp = "";
+    // while ($rs = mysqli_fetch_array($result)) {
+    //     if ($outp !="") {
+            // $outp .='{"full_name":"' .$rs["full_name"]. '"}';
+            $outp .='{"full_name":"' .$rs["full_name"]. '",';
+            $outp .='"email":"' .$rs["email"]. '",';
+            $outp .='"Status":"200"}';
+    //     }
+    // }
+    echo $outp;
 }
-else{
-    $response['data']=array('status'=>'invalid');
-    echo json_encode($response);
+else {
+    http_response_code(202);
 }
 
 
